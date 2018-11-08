@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params)
+    @user = User.new(user_params)
     if @user.save
       session[:user_id] = @user.id
       redirect_to '/', notice: 'User created'
@@ -14,6 +14,7 @@ class UsersController < ApplicationController
   end
 
   private
+  def user_params
   params.require(:user).permit(
     :first_name,
     :last_name,
@@ -21,5 +22,6 @@ class UsersController < ApplicationController
     :password,
     :password_confirmation
   )
+  end
 
 end
