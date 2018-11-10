@@ -15,8 +15,15 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to '/'
     else
-    # If user's login doesn't work, send them back to the login form.
-      redirect_to 'new'
+      @messages = []
+      if user
+        @messages << "Incorrect Password" if params[:password].length != 0
+      else
+        @messages << "User does not exist" if params[:email].length != 0
+      end
+      @messages << "Email is blank" if params[:email].length == 0
+      @messages << "Password is blank" if params[:password].length == 0
+      render :new
     end
 
   end
